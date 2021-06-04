@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-alpine as Builder
+FROM ruby:3.0.1-alpine as Builder
 LABEL maintainer="thibaut.poullain@ydrazil.fr"
 
 RUN apk add --no-cache \
@@ -22,6 +22,7 @@ RUN bundle config --local frozen 1 && \
 
 ONBUILD COPY ./builder/Gemfile* /app/
 ONBUILD RUN bundle config --local without 'development test' && \
+            bundle lock --add-platform x86_64-linux-musl && \
             bundle install -j4 --retry 3 && \
             bundle clean --force && \
             rm -rf /usr/local/bundle/cache/*.gem && \
