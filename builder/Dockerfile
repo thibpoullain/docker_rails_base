@@ -13,14 +13,14 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-COPY package.json yarn.lock /app/
+COPY ./builder/package.json ./builder/yarn.lock /app/
 RUN yarn install --frozen-lockfile
 
-COPY Gemfile* /app/
+COPY ./builder/Gemfile* /app/
 RUN bundle config --local frozen 1 && \
     bundle install -j4 --retry 3
 
-ONBUILD COPY Gemfile* /app/
+ONBUILD COPY ./builder/Gemfile* /app/
 ONBUILD RUN bundle config --local without 'development test' && \
             bundle install -j4 --retry 3 && \
             bundle clean --force && \

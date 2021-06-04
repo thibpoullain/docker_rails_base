@@ -1,5 +1,4 @@
-![Build images](https://github.com/ledermann/docker-rails-base/workflows/Build%20images/badge.svg)
-
+From https://github.com/ledermann/docker-rails-base <3
 # DockerRailsBase
 
 Building Docker images usually takes a long time. This repo contains base images with preinstalled dependencies for [Ruby on Rails](https://rubyonrails.org/), so building a production image will be **2-3 times faster**.
@@ -74,8 +73,8 @@ Using [Dependabot](https://dependabot.com/), every updated Ruby gem or Node modu
 Add this `Dockerfile` to your application:
 
 ```Dockerfile
-FROM ledermann/rails-base-builder:3.0.1-alpine AS Builder
-FROM ledermann/rails-base-final:3.0.1-alpine
+FROM vrizzt/rails_base_builder:3.0.1 AS Builder
+FROM vrizzt/rails_base_final:3.0.1
 USER app
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 ```
@@ -93,8 +92,8 @@ $ docker build .
 [BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/) requires a little [workaround](https://github.com/moby/buildkit/issues/816) to trigger the ONBUILD statements. Add a `COPY` statement to the `Dockerfile`:
 
 ```Dockerfile
-FROM ledermann/rails-base-builder:3.0.1-alpine AS Builder
-FROM ledermann/rails-base-final:3.0.1-alpine
+FROM vrizzt/rails-base-builder:3.0.1 AS Builder
+FROM vrizzt/rails-base-final:3.0.1
 
 # Workaround to trigger Builder's ONBUILDs to finish:
 COPY --from=Builder /etc/alpine-release /tmp/dummy
@@ -150,8 +149,8 @@ deploy:
 
 Both Docker images (`Builder` and `Final`) are regularly published at DockerHub and tagged with the current Ruby version:
 
-* https://hub.docker.com/r/ledermann/rails-base-builder/tags
-* https://hub.docker.com/r/ledermann/rails-base-final/tags
+* https://hub.docker.com/repository/docker/vrizzt/ruby_base_builder
+* https://hub.docker.com/repository/docker/vrizzt/ruby_base_final
 
 Beware: The published images are **not** immutable. When a dependency (e.g. Ruby gem) is updated, the images will be republished using the **same** tag.
 
@@ -159,12 +158,9 @@ When a new Ruby version comes out, a new tag is introduced and the images will b
 
 | Ruby version | Tag          | First published |
 |--------------|--------------|-----------------|
-| 3.0.1        | 3.0.1-alpine | 2021-04-06      |
-| 3.0.0        | 3.0.0-alpine | 2021-02-15      |
-| 2.7.2        | 2.7.2-alpine | 2020-10-10      |
-| 2.7.1        | 2.7.1-alpine | 2020-05-20      |
-| 2.6.6        | -            | 2020-04-01      |
-| 2.6.5        | -            | 2020-01-24      |
+| 3.0.1        | 3.0.1 	      | 2021-06-04      |
+| 2.7.2        | 2.7.2        | 2020-06-04      |
+
 
 The latest Docker images are also tagged as `latest`. However, it is not recommended to use this tag in your Rails application, because updating an app to a new Ruby version usually requires some extra work.
 

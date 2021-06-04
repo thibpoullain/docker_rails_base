@@ -25,14 +25,14 @@ gem 'slim'
 gem 'webpacker', '~> 5.0'
 
 # Create JSON structures via a Builder-style DSL (https://github.com/rails/jbuilder)
-gem 'jbuilder', '~> 2.7
+gem 'jbuilder', '~> 2.7'
 
 # Simple, efficient background processing for Ruby (http://sidekiq.org)
 gem 'sidekiq'
 
 gem "rspec", "~> 3.10"
 
-gem "rspec-rails", "~> 5.0
+gem "rspec-rails", "~> 5.0"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.4", require: fals
+gem "bootsnap", ">= 1.4.4", require: false
